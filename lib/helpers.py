@@ -1,7 +1,8 @@
 # lib/helpers.py
 
-def helper_1():
-    print("Performing useful function#1.")
+from models.trainer import Trainer
+from models.__init__ import CURSOR, CONN
+from models.pokemon import Pokemon
 
 
 def exit_program():
