@@ -78,16 +78,19 @@ class Pokemon:
             SET trainer_name, pokemon_name = ?, pokemon_type = ?
             WHERE id = ?
         """
-        CURSOR.execute(sql, (self.id,))
+        CURSOR.execute(sql, (self.trainer_name, self.pokemon_name,
+                             self.pokemon_type, self.id))
         CONN.commit()
 
-        del type(self).all[self.id]
-
-        self.id = None
-
-
     def delete(self):
-        pass
+        sql = """
+            DELETE FROM pokemons
+            WHERE id  = ?
+        """
+        CURSOR.execute(sql, (self.id,))
+        CONN.commit()
+        del type(self).all[self.id]
+        self.id = None
 
     @classmethod
     def create(cls, name):
