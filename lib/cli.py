@@ -7,8 +7,6 @@ from helpers import (
     input_new_trainer,
     delete_trainer
 )
-
-
 def main():
     while True:
         menu()
@@ -18,16 +16,21 @@ def main():
             list_trainers()
             while True:
                 trainers_menu()
-                trainers_choice = (">")
-                if trainers_choice == "A":
+                trainer_choice = input("> ")  
+                if trainer_choice == "A":
                     selected_trainer()
                     list_trainers()
-                elif trainers_choice == "B":
-                    input_new_trainer
-                elif trainers_choice == "c":
-                    delete_trainer
-                elif trainers_choice == "D":
+                elif trainer_choice == "B":
+                    input_new_trainer()
+                    list_trainers()
+                elif trainer_choice == "C":
+                    delete_trainer()
+                    list_trainers()
+                elif trainer_choice == "D":
                     break
+                else:
+                    print("Invalid option, please select an option from the menu.")
+        
         elif choice == "0":
             exit_program()
         else:
@@ -38,13 +41,22 @@ def main():
 
 
 def menu():
-    print("Please select an option:")
-    print("1. List of Pokemon Trainers")
-    print("0. Exit Pokemon Trainers")
+    print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+    print("                                                     ")
+    print("  Hello, and Welcome to the Pokemon Trainers' Index.")
+    print("  Please select an option from the menu:")
+    print("  1. List of Pokemon Trainers")
+    print("  0. Exit Pokemon Trainers")
+    print("                                                     ")
+    print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+
+    
+   
+
 
 def trainers_menu():
     print("                                                     ")
-    print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+    print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
     print("                                                     ")
     print(" Please select an option from the menu:")
     print("     A. Select a pokemon trainer to view their pokemon.")
@@ -52,7 +64,7 @@ def trainers_menu():
     print("     C. Delete a pokemon trainer.")
     print("     D. Exit to main menu.")
     print("                                                     ")
-    print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+    print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
     print("                                                     ")
 
 

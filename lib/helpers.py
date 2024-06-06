@@ -5,12 +5,13 @@ from models.__init__ import CURSOR, CONN
 from models.pokemon import Pokemon
 
 def list_trainers():
+    
     print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
     print("                             POKEMON TRAINERS                            ")
     print("                                                                         ")
 
     Trainer.create_table()
-    return [trainer for trainer in Trainer.get_all()]
+    print([trainer.name for trainer in Trainer.get_all()])
 
 def selected_trainer():
     trainer_select = input("Name of pokemon trainer: ")
@@ -28,10 +29,18 @@ def input_new_trainer():
     else:
         try:
             new_trainer = Trainer.create(trainer_name)
-            print(f'{new_trainer.trainer_name} created.')
+            print(f'{new_trainer.name} created.')
         except Exception as exc:
             print("Error creating pokemon trainer:", exc)
 
+def delete_trainer():
+    trainer_name = input("Name of pokemon trainer: ")
+    trainer = Trainer.find_by_name(trainer_name)    
+    if trainer:
+        trainer.delete()
+        print(f'Trainer {Trainer.name} deleted.')
+    else:
+        print(f'Trainer {trainer} not found.')
 
 
 def exit_program():
