@@ -61,7 +61,17 @@ class Pokemon:
         CONN.commit()
 
     def save(self):
-        pass
+        sql = """
+            INSERT INTO pokemons(trainer_name, pokemon_name, pokemon_type)
+            VALUES = (?,?,?)
+        """
+    
+        CURSOR.execute(sql, (self.trainer_name, self.pokemon_name, self.pokemon_type))
+        CONN.commit()
+
+        self.id = CURSOR.lastrowid
+        type(self).all[self.id] = self
+
     @classmethod
     def create(cls, name):
         pass
