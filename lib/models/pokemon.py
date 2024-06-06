@@ -72,6 +72,23 @@ class Pokemon:
         self.id = CURSOR.lastrowid
         type(self).all[self.id] = self
 
+    def update(self):
+        sql = """
+            UPDATE pokemons
+            SET trainer_name, pokemon_name = ?, pokemon_type = ?
+            WHERE id = ?
+        """
+        CURSOR.execute(sql, (self.id,))
+        CONN.commit()
+
+        del type(self).all[self.id]
+
+        self.id = None
+
+
+    def delete(self):
+        pass
+
     @classmethod
     def create(cls, name):
         pass
