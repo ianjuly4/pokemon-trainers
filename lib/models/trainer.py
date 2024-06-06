@@ -64,7 +64,15 @@ class Trainer:
         """
         CURSOR.execute(sql, (self.name, self.id))
         CONN.commit()    
-   
+
+    def delete(self):
+        sql =  """
+            DELETE FROM trainers
+            WHERE id = ?
+        """
+        CURSOR.execute(sql, (self.id,))
+        CONN.commit()
+
     @classmethod
     def instance_from_db(cls, row):
         trainer = cls.all.get(row[0])
@@ -105,7 +113,7 @@ class Trainer:
         row = CURSOR.execute(sql, (name,)).fetchone()
         return cls.instance_from_db(row) if row else None
     
-    def pokemon(self):
+    def pokemons(self):
         from models.pokemon import Pokemon
         sql = """
             SELECT * FROM trainers
@@ -118,5 +126,4 @@ class Trainer:
             Pokemon.instance_from_db(row) for row in rows
         ]
 
-    def delete(self):
-       pass
+    
