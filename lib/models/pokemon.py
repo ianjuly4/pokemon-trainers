@@ -134,8 +134,15 @@ class Pokemon:
         return cls.instance_from_db(row) if row else None
 
     @classmethod
-    def find_by_name(cls, name):
-        pass
+    def find_by_name(cls, pokemon_name):
+        sql = """
+            SELECT *
+            FROM pokemons
+            WHERE pokemon_name = ?
+        """
+        
+        row = CURSOR.execute(sql, (pokemon_name,)).fetchone()
+        return cls.instance_from_db(row) if row else None
     
 
         
