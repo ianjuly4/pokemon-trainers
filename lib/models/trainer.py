@@ -50,10 +50,19 @@ class Trainer:
         type(self).all[self.id] = self
 
     @classmethod
-    def create(cls, category_name):
-      pass
+    def create(cls, name):
+      trainer = cls(name)
+      trainer.save()
+      return trainer
+
     def update(self):
-       pass
+        sql = """
+            UPDATE trainers
+            SET name = ?,
+            WHERE id = ?
+        """
+        CURSOR.execute(sql, (self.name, self.id))
+        CONN.commit()    
    
     @classmethod
     def instance_from_db(cls, row):
