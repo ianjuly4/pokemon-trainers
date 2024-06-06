@@ -2,7 +2,10 @@
 
 from helpers import (
     exit_program,
-    list_trainers
+    list_trainers,
+    selected_trainer,
+    input_new_trainer,
+    delete_trainer
 )
 
 
@@ -15,12 +18,16 @@ def main():
             list_trainers()
             while True:
                 trainers_menu()
-                trainers_choice = (">"):
+                trainers_choice = (">")
                 if trainers_choice == "A":
                     selected_trainer()
                     list_trainers()
                 elif trainers_choice == "B":
-                    input_trainer
+                    input_new_trainer
+                elif trainers_choice == "c":
+                    delete_trainer
+                elif trainers_choice == "D":
+                    break
         elif choice == "0":
             exit_program()
         else:

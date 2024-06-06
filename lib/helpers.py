@@ -10,9 +10,15 @@ def list_trainers():
     print("                                                                         ")
 
     Trainer.create_table()
-    trainers = Trainer.get_all()
-    for trainer in trainers:
-        print(trainer.name)
+    return [trainer for trainer in Trainer.get_all()]
+
+def selected_trainer():
+    trainer_select = input("Name of pokemon trainer: ")
+    selected_trainer = Trainer.find_by_name(trainer_select)
+    if selected_trainer:
+       return [pokemon for pokemon in Trainer.all if pokemon.trainer == trainer_select]
+    else:
+        print("error")
 
 def input_new_trainer():
     trainer_name = input("Please input the name of new pokemon trainer: ")
@@ -26,16 +32,6 @@ def input_new_trainer():
         except Exception as exc:
             print("Error creating pokemon trainer:", exc)
 
-def selected_category():
-    category_select = input("Name of category: ")
-    category_expense = Expense.find_by_category(category_select)
-    if category_expense:
-       for expense in category_expense:
-           print(expense.expense_name, expense.expense_amount, expense.expense_month)
-    elif category_expense != Expense.find_by_category(category_select):
-        print("Selected category must reference a category in the categories database.")
-    else:
-        print("Selected category does not represent any current expense.")
 
 
 def exit_program():
