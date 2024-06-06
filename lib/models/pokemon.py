@@ -114,10 +114,24 @@ class Pokemon:
 
     @classmethod
     def get_all(cls):
-       pass
+        sql = """
+            SELECT *
+            FROM pokemons
+        """
+
+        rows = CURSOR.execute(sql).fetchall()
+        return [cls.instance_from_db(row) for row in rows]
+    
     @classmethod
     def find_by_id(cls, id):
-       pass
+        sql = """
+            SELECT *
+            FROM pokemons
+            WHERE id = ?
+        """
+
+        row = CURSOR.execute(sql, (id,)).fetchone()
+        return cls.instance_from_db(row) if row else None
 
     @classmethod
     def find_by_name(cls, name):
