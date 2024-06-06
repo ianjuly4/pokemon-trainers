@@ -77,7 +77,14 @@ class Trainer:
 
     @classmethod
     def get_all(cls):
-      pass
+        sql = """
+            SELECT * FROM trainers
+        """
+        rows = CURSOR.execute(sql).fetchall()
+
+        return [cls.instance_from_db(row) for row in rows]
+
+
     @classmethod
     def find_by_id(cls, id):
        pass
