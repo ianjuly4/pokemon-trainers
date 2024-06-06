@@ -54,7 +54,12 @@ class Pokemon:
 
     @classmethod
     def drop_table(cls):
-        pass
+        sql = """
+            DROP TABLE IF EXISTS pokemons
+        """
+        CURSOR.execute(sql)
+        CONN.commit()
+
     def save(self):
         pass
     @classmethod
