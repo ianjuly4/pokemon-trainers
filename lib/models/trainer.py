@@ -1,4 +1,4 @@
-class Trainers:
+class Trainer:
 
     all = {}
 
@@ -7,20 +7,26 @@ class Trainers:
         self.id = id
 
     @property
-    def category_name(self):
+    def name(self):
         return self._name
     
-    @category_name.setter
-    def category_name(self, name):
+    @name.setter
+    def name(self, name):
         if isinstance(name, str) and len(name) >= 1:
-            self._category_name = name
+            self._name = name
         else:
             raise ValueError("Category must be a string and have atleast 1 character.")
 
     
     @classmethod
     def create_table(cls):
-        pass
+        sql = """
+            CREATE TABLE if not exists trainers(
+            id INTEGER PRIMARY KEY,
+            name TEXT
+            )
+        """
+        
     @classmethod
     def drop_table(cls):
         pass
