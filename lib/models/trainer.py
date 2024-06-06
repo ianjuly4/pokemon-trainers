@@ -1,4 +1,5 @@
 from models.__init__ import CURSOR, CONN
+
 class Trainer:
 
     all = {}
@@ -81,14 +82,19 @@ class Trainer:
             SELECT * FROM trainers
         """
         rows = CURSOR.execute(sql).fetchall()
-
         return [cls.instance_from_db(row) for row in rows]
 
 
     @classmethod
     def find_by_id(cls, id):
-       pass
-    
+        sql = """
+            SELECT * 
+            FROM trainers
+            WHERE id = ?
+        """
+        row = CURSOR.execute(sql, (id,)).fetchone()
+        return cls.instance_from_db(row) if row else None
+
     @classmethod
     def find_by_name(cls, category_name):
       pass
