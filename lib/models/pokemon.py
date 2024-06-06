@@ -38,6 +38,51 @@ class Pokemon:
         else:
             raise TypeError("Trainer name must be a string and reference a trainer in the database. ")
         
+    @classmethod
+    def create_table(cls):
+        sql = """
+            CREATE TABLE IF NOT EXISTS pokemons(
+            id INTEGER PRIMARY KEY,
+            trainer_name TEXT,
+            pokemon_name TEXT,
+            pokemon_type TEXT,
+            FOREIGN KEY (trainer_name) REFERENCES trainers (name)
+            )
+        """
+        CURSOR.execute(sql)
+        CONN.commit()
+
+    @classmethod
+    def drop_table(cls):
+        pass
+    def save(self):
+        pass
+    @classmethod
+    def create(cls, name):
+        pass
+
+    def update(self):
+       pass
+
+    def delete(self):
+        pass
+
+    @classmethod
+    def instance_from_db(cls, row):
+       pass
+
+    @classmethod
+    def get_all(cls):
+       pass
+    @classmethod
+    def find_by_id(cls, id):
+       pass
+
+    @classmethod
+    def find_by_name(cls, name):
+        pass
+    
+
         
 
 
