@@ -96,9 +96,27 @@ class Trainer:
         return cls.instance_from_db(row) if row else None
 
     @classmethod
-    def find_by_name(cls, category_name):
-      pass
-    def get_expenses(self):
-       pass
+    def find_by_name(cls, name):
+        sql = """
+            SELECT *
+            FROM trainers
+            WHERE name = ?
+        """
+        row = CURSOR.execute(sql, (name,)).fetchone()
+        return cls.instance_from_db(row) if row else None
+    
+    def pokemon(self):
+        from models.pokemon import Pokemon
+        sql = """
+            SELECT * FROM trainers
+            WHERE trainer_id = ?
+        """
+        CURSOR.execute(sql, (self.id,),)
+
+        rows = CURSOR.fetchall()
+        return [
+            Pokemon.instance_from_db(row) for row in rows
+        ]
+
     def delete(self):
        pass
