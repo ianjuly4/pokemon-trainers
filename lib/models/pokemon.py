@@ -93,8 +93,10 @@ class Pokemon:
         self.id = None
 
     @classmethod
-    def create(cls, name):
-        pass
+    def create(cls, trainer_name, pokemon_name, pokemon_type):
+        pokemon = cls(trainer_name, pokemon_name, pokemon_type)
+        pokemon.save()
+        return pokemon
 
     def update(self):
        pass
