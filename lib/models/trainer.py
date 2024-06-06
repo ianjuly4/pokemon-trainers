@@ -66,7 +66,15 @@ class Trainer:
    
     @classmethod
     def instance_from_db(cls, row):
-        pass
+        trainer = cls.all.get(row[0])
+        if trainer:
+            trainer.name = row[1]
+        else:
+            trainer = cls(row[1], row[2])
+            trainer.id = row[0]
+            cls.all[trainer.id] = trainer
+        return trainer
+
     @classmethod
     def get_all(cls):
       pass
