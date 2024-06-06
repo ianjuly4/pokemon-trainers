@@ -98,15 +98,19 @@ class Pokemon:
         pokemon.save()
         return pokemon
 
-    def update(self):
-       pass
-
-    def delete(self):
-        pass
-
     @classmethod
     def instance_from_db(cls, row):
-       pass
+        pokemon = cls.all.get(row[0])
+        if pokemon:
+            pokemon.trainer_name = row[1]
+            pokemon.pokemon_name = row[2]
+            pokemon.pokemon_type = row[3]
+        else:
+            pokemon = cls(row[1], row[2], row[3])
+            pokemon.id = row[0]
+            cls.all[pokemon.id] = pokemon
+        return pokemon
+
 
     @classmethod
     def get_all(cls):
