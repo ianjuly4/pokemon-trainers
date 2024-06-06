@@ -1,3 +1,4 @@
+from models.__init__ import CURSOR, CONN
 class Trainer:
 
     all = {}
@@ -21,17 +22,32 @@ class Trainer:
     @classmethod
     def create_table(cls):
         sql = """
-            CREATE TABLE if not exists trainers(
+            CREATE TABLE IF NOT EXISTS trainers(
             id INTEGER PRIMARY KEY,
             name TEXT
             )
         """
-        
+        CURSOR.execute(sql)
+        CONN.commit()
+
     @classmethod
     def drop_table(cls):
-        pass
+        sql = """
+            DROP TABLE IF EXISTS trainers
+        """
+        CURSOR.execute(sql)
+        CONN.commit()
+
     def save(self):
-        pass
+        sql = """
+            INSERT INTO trainers(name)
+            VALUES(?)
+        """
+        CURSOR.execute(sql, (self.name,))
+        CONN.commit()
+
+        self.id = CURSOR.lastrowid
+        type(self).all[self.id] = self
 
     @classmethod
     def create(cls, category_name):
