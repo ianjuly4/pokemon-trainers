@@ -67,6 +67,16 @@ class Pokemon:
             self._pokemon_attack = pokemon_attack
         else:
             raise TypeError("Pokemon Attack must be an intger and must be greater than or equal to 1.")
+    
+    @property
+    def pokemon_defense(self):
+        return self._pokemon_defense
+    @pokemon_defense.settter
+    def pokemon_defense(self, pokemon_defense):
+        if isinstance(pokemon_defense, int) and len(pokemon_defense) >= 1:
+            self._pokemon_defense = pokemon_defense
+        else:
+            raise TypeError("Pokemon Defense must be an integer and must be greater than or equal to 1.")
 
     @classmethod
     def create_table(cls):
@@ -111,8 +121,7 @@ class Pokemon:
             SET trainer_name, pokemon_name = ?, pokemon_type = ?, pokemon_hp = ?, pokemon_attack = ?, pokemon_defense = ?
             WHERE id = ?
         """
-        CURSOR.execute(sql, (self.trainer_name, self.pokemon_name,
-                             self.pokemon_type, self.pokemon_hp, self.pokemon_attack, self.pokemon_defense self.id))
+        CURSOR.execute(sql, (self.trainer_name, self.pokemon_name, self.pokemon_type, self.pokemon_hp, self.pokemon_attack, self.pokemon_defense self.id))
         CONN.commit()
 
     def delete(self):
@@ -126,8 +135,8 @@ class Pokemon:
         self.id = None
 
     @classmethod
-    def create(cls, trainer_name, pokemon_name, pokemon_type):
-        pokemon = cls(trainer_name, pokemon_name, pokemon_type)
+    def create(cls, trainer_name, pokemon_name, pokemon_type, pokemon_hp, pokemon_attack, pokemon_defense):
+        pokemon = cls(trainer_name, pokemon_name, pokemon_type, pokemon_hp, pokemon_attack, pokemon_defense)
         pokemon.save()
         return pokemon
 
