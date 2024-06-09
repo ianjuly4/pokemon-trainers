@@ -56,9 +56,17 @@ class Pokemon:
         if isinstance(pokemon_hp, int) and len(pokemon_hp) >= 1:
             self._pokemon_hp = pokemon_hp
         else:
-            raise TypeError("Pokemon HP must be an integer and must be greater than 1.")
+            raise TypeError("Pokemon HP must be an integer and must be greater than or equal to 1.")
 
-
+    @property
+    def pokemon_attack(self):
+        return self._pokemon_attack
+    @pokemon_attack.setter
+    def pokemon_attack(self, pokemon_attack):
+        if isinstance(pokemon_attack, int) and len(pokemon_attack) >= 1:
+            self._pokemon_attack = pokemon_attack
+        else:
+            raise TypeError("Pokemon Attack must be an intger and must be greater than or equal to 1.")
 
     @classmethod
     def create_table(cls):
