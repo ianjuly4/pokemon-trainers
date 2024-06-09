@@ -52,10 +52,15 @@ def input_new_pokemon(selected_trainer):
         print("Pokemon has already been captured. Please enter a non-listed name.")
     else:
         try:
-            pokemon_type = input("Please input type of new capture pokemon: ")
-            new_pokemon = Pokemon.create(selected_trainer, pokemon_name, pokemon_type)
-            #pokemon_type = input("Please nput type of new capture pokemon: ")
-            #type_pokemon = Pokemon.create(pokemon_type)
+            pokemon_type = input("Please input type of new captured pokemon: ")
+            pokemon_hp = input("Please input HP of new captured pokemon: ")
+            hp = int(pokemon_hp)
+            pokemon_attack = input("Please input attack of new captured pokemon: ")
+            attack = int(pokemon_attack)
+            pokemon_defense = input("Please input defense of new captured pokemon: ")
+            defense = int(pokemon_defense)
+            new_pokemon = Pokemon.create(selected_trainer, pokemon_name, pokemon_type, hp, attack, defense)
+            
             print(f'{new_pokemon.pokemon_name} inputed.')
         except Exception as exc:
             print("Error inputing pokemon :", exc)

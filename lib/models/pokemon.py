@@ -11,12 +11,15 @@ class Pokemon:
                 pokemon_type, 
                 pokemon_hp,
                 pokemon_attack,
-                pokemon_defense
+                pokemon_defense,
                 id=None):
         self.pokemon_name = pokemon_name
         self.pokemon_type = pokemon_type
         self.id = id
         self.trainer_name = trainer_name
+        self.pokemon_hp = pokemon_hp
+        self.pokemon_attack = pokemon_attack
+        self.pokemon_defense = pokemon_defense
     
     @property
     def pokemon_name(self):
@@ -53,30 +56,29 @@ class Pokemon:
         return self._pokemon_hp
     @pokemon_hp.setter
     def pokemon_hp(self, pokemon_hp):
-        if isinstance(pokemon_hp, int) and len(pokemon_hp) >= 1:
+        if isinstance(pokemon_hp, int):
             self._pokemon_hp = pokemon_hp
         else:
-            raise TypeError("Pokemon HP must be an integer and must be greater than or equal to 1.")
-
+            raise TypeError("Pokemon HP must be an integer.")
     @property
     def pokemon_attack(self):
         return self._pokemon_attack
     @pokemon_attack.setter
     def pokemon_attack(self, pokemon_attack):
-        if isinstance(pokemon_attack, int) and len(pokemon_attack) >= 1:
+        if isinstance(pokemon_attack, int):
             self._pokemon_attack = pokemon_attack
         else:
-            raise TypeError("Pokemon Attack must be an intger and must be greater than or equal to 1.")
+            raise TypeError("Pokemon Attack must be an intger.")
     
     @property
     def pokemon_defense(self):
         return self._pokemon_defense
-    @pokemon_defense.settter
+    @pokemon_defense.setter
     def pokemon_defense(self, pokemon_defense):
-        if isinstance(pokemon_defense, int) and len(pokemon_defense) >= 1:
+        if isinstance(pokemon_defense, int):
             self._pokemon_defense = pokemon_defense
         else:
-            raise TypeError("Pokemon Defense must be an integer and must be greater than or equal to 1.")
+            raise TypeError("Pokemon Defense must be an integer.")
 
     @classmethod
     def create_table(cls):
@@ -88,7 +90,7 @@ class Pokemon:
             pokemon_type TEXT,
             pokemon_hp INTEGER,
             pokemon_attack INTEGER,
-            pokemon_defense INTEGER
+            pokemon_defense INTEGER,
             FOREIGN KEY (trainer_name) REFERENCES trainers (name)
             )
         """
@@ -106,7 +108,7 @@ class Pokemon:
     def save(self):
         sql = """
             INSERT INTO pokemons(trainer_name, pokemon_name, pokemon_type, pokemon_hp, pokemon_attack, pokemon_defense)
-            VALUES (?,?,?)
+            VALUES (?,?,?,?,?,?)
         """
     
         CURSOR.execute(sql, (self.trainer_name, self.pokemon_name, self.pokemon_type, self.pokemon_hp, self.pokemon_attack, self.pokemon_defense))
@@ -121,7 +123,7 @@ class Pokemon:
             SET trainer_name, pokemon_name = ?, pokemon_type = ?, pokemon_hp = ?, pokemon_attack = ?, pokemon_defense = ?
             WHERE id = ?
         """
-        CURSOR.execute(sql, (self.trainer_name, self.pokemon_name, self.pokemon_type, self.pokemon_hp, self.pokemon_attack, self.pokemon_defense self.id))
+        CURSOR.execute(sql, (self.trainer_name, self.pokemon_name, self.pokemon_type, self.pokemon_hp, self.pokemon_attack, self.pokemon_defense, self.id))
         CONN.commit()
 
     def delete(self):
