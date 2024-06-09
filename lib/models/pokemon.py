@@ -5,7 +5,14 @@ class Pokemon:
 
     all = {}
 
-    def __init__(self, trainer_name, pokemon_name, pokemon_type, id=None):
+    def __init__(self, 
+                trainer_name,
+                pokemon_name, 
+                pokemon_type, 
+                pokemon_hp,
+                pokemon_attack,
+                pokemon_defense
+                id=None):
         self.pokemon_name = pokemon_name
         self.pokemon_type = pokemon_type
         self.id = id
@@ -41,6 +48,18 @@ class Pokemon:
         else:
             raise TypeError("Trainer name must be a string. ")
         
+    @property
+    def pokemon_hp(self):
+        return self._pokemon_hp
+    @pokemon_hp.setter
+    def pokemon_hp(self, pokemon_hp):
+        if isinstance(pokemon_hp, int) and len(pokemon_hp) >= 1:
+            self._pokemon_hp = pokemon_hp
+        else:
+            raise TypeError("Pokemon HP must be an integer and must be greater than 1.")
+
+
+
     @classmethod
     def create_table(cls):
         sql = """
@@ -49,6 +68,9 @@ class Pokemon:
             trainer_name TEXT,
             pokemon_name TEXT,
             pokemon_type TEXT,
+            pokemon_hp INTEGER,
+            pokemon_attack INTEGER,
+            pokemon_defense INTEGER
             FOREIGN KEY (trainer_name) REFERENCES trainers (name)
             )
         """
@@ -65,11 +87,11 @@ class Pokemon:
 
     def save(self):
         sql = """
-            INSERT INTO pokemons(trainer_name, pokemon_name, pokemon_type)
+            INSERT INTO pokemons(trainer_name, pokemon_name, pokemon_type, pokemon_hp, pokemon_attack, pokemon_defense)
             VALUES (?,?,?)
         """
     
-        CURSOR.execute(sql, (self.trainer_name, self.pokemon_name, self.pokemon_type))
+        CURSOR.execute(sql, (self.trainer_name, self.pokemon_name, self.pokemon_type, self.pokemon_hp, self.pokemon_attack, self.pokemon_defense))
         CONN.commit()
 
         self.id = CURSOR.lastrowid
@@ -78,11 +100,11 @@ class Pokemon:
     def update(self):
         sql = """
             UPDATE pokemons
-            SET trainer_name, pokemon_name = ?, pokemon_type = ?
+            SET trainer_name, pokemon_name = ?, pokemon_type = ?, pokemon_hp = ?, pokemon_attack = ?, pokemon_defense = ?
             WHERE id = ?
         """
         CURSOR.execute(sql, (self.trainer_name, self.pokemon_name,
-                             self.pokemon_type, self.id))
+                             self.pokemon_type, self.pokemon_hp, self.pokemon_attack, self.pokemon_defense self.id))
         CONN.commit()
 
     def delete(self):
@@ -108,8 +130,11 @@ class Pokemon:
             pokemon.trainer_name = row[1]
             pokemon.pokemon_name = row[2]
             pokemon.pokemon_type = row[3]
+            pokemon.pokemon_hp = row[4]
+            pokemon.pokemon_attack = row[5]
+            pokemon.pokemon_defense = row[6]
         else:
-            pokemon = cls(row[1], row[2], row[3])
+            pokemon = cls(row[1], row[2], row[3], row[4], row[5], row[6])
             pokemon.id = row[0]
             cls.all[pokemon.id] = pokemon
         return pokemon
