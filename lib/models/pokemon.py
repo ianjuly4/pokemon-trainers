@@ -2,7 +2,10 @@ from models. __init__ import CURSOR, CONN
 from models. trainer import Trainer
 
 class Pokemon:
-    def __init__(self, pokemon_name, pokemon_type, trainer_name, id=None):
+
+    all = {}
+
+    def __init__(self, trainer_name, pokemon_name, pokemon_type, id=None):
         self.pokemon_name = pokemon_name
         self.pokemon_type = pokemon_type
         self.id = id
@@ -32,11 +35,11 @@ class Pokemon:
     def trainer_name(self):
         return self._trainer_name
     @trainer_name.setter
-    def trainer_id(self, trainer_name):
-        if isinstance(trainer_name, str) and Trainer.find_by_name(trainer_name):
+    def trainer_name(self, trainer_name):
+        if isinstance(trainer_name, str):
             self._trainer_name = trainer_name
         else:
-            raise TypeError("Trainer name must be a string and reference a trainer in the database. ")
+            raise TypeError("Trainer name must be a string. ")
         
     @classmethod
     def create_table(cls):
@@ -63,7 +66,7 @@ class Pokemon:
     def save(self):
         sql = """
             INSERT INTO pokemons(trainer_name, pokemon_name, pokemon_type)
-            VALUES = (?,?,?)
+            VALUES (?,?,?)
         """
     
         CURSOR.execute(sql, (self.trainer_name, self.pokemon_name, self.pokemon_type))
@@ -144,7 +147,15 @@ class Pokemon:
         row = CURSOR.execute(sql, (pokemon_name,)).fetchone()
         return cls.instance_from_db(row) if row else None
     
-
+    @classmethod
+    def find_by_trainer_name(cls, trainer_name):
+        sql = """
+            SELECT *
+            FROM pokemons
+            WHERE trainer_name = ?
+        """
+        rows = CURSOR.execute(sql, (trainer_name,)).fetchall()
+        return [cls.instance_from_db(row) for row in rows]
         
 
 

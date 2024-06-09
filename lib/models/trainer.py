@@ -113,13 +113,13 @@ class Trainer:
         row = CURSOR.execute(sql, (name,)).fetchone()
         return cls.instance_from_db(row) if row else None
     
-    def pokemons(self):
+    def pokemons(cls):
         from models.pokemon import Pokemon
         sql = """
-            SELECT * FROM trainers
-            WHERE trainer_id = ?
+            SELECT * FROM pokemons
+            WHERE trainer_name = ?
         """
-        CURSOR.execute(sql, (self.id,),)
+        CURSOR.execute(sql, (cls.name,),)
 
         rows = CURSOR.fetchall()
         return [
