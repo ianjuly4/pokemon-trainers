@@ -15,7 +15,6 @@ def selected_trainer():
         print("Selected trainer not found.")
         
 
-
 def input_new_trainer():
     trainer_name = input("Please input the name of new pokemon trainer: ")
     existing_trainer = Trainer.find_by_name(trainer_name)
@@ -28,6 +27,7 @@ def input_new_trainer():
         except Exception as exc:
             print("Error creating pokemon trainer:", exc)
 
+
 def delete_trainer():
     trainer_name = input("Name of pokemon trainer: ")
     trainer = Trainer.find_by_name(trainer_name)    
@@ -37,13 +37,22 @@ def delete_trainer():
     else:
         print(f'Trainer {trainer} not found.')
 
-def selected_pokemon():
-    pokemon_select = input("Name of capture pokemon: ")
+
+def selected_pokemon(selected_trainer):
+    pokemon_select = input("Name of captured pokemon: ")
     select_pokemon = Pokemon.find_by_name(pokemon_select)
-    if select_pokemon:
-       pokemon_menu_selected(select_pokemon)
+    trainer = Trainer.find_by_name(selected_trainer)
+    if trainer:
+        if select_pokemon:
+            if select_pokemon.trainer_name == trainer.id:
+                pokemon_menu_selected(select_pokemon)
+            else:
+                print("Selected pokemon is not associated with current trainer.")
+        else:
+            print("Selected Pokemon not found.")
     else:
-        print("Selected Pokemon not found.")
+        print("Trainer not found.")
+        
 
 def input_new_pokemon(selected_trainer):
     pokemon_name = input("Please input the name of new captured pokemon: ")
@@ -64,6 +73,7 @@ def input_new_pokemon(selected_trainer):
             print(f'{new_pokemon.pokemon_name} inputed.')
         except Exception as exc:
             print("Error inputing pokemon :", exc)
+
 
 def update_pokemon(select_pokemon):
             
@@ -110,7 +120,7 @@ def menu_pokemon(selected_trainer):
         pokemon_choice = input("> ")
         if pokemon_choice == "1":
             #list_pokemon()
-            selected_pokemon()
+            selected_pokemon(selected_trainer)
         elif pokemon_choice == "2":
             #list_pokemon()
             input_new_pokemon(selected_trainer)
