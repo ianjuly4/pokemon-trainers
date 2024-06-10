@@ -33,7 +33,7 @@ def delete_trainer():
     trainer = Trainer.find_by_name(trainer_name)    
     if trainer:
         trainer.delete()
-        print(f'Trainer {Trainer.name} deleted.')
+        print(f'Trainer {trainer.name} deleted.')
     else:
         print(f'Trainer {trainer} not found.')
 
@@ -90,8 +90,22 @@ def update_pokemon(select_pokemon):
             select_pokemon.pokemon_defense = new_defense
             select_pokemon.update()
 
-def delete_pokemon():
-    pass
+def delete_pokemon(selected_trainer):
+    pokemon_name = input("Name of pokemon: ")
+    select_pokemon = Pokemon.find_by_name(pokemon_name)
+    trainer = Trainer.find_by_name(selected_trainer)
+
+    if trainer:
+        if select_pokemon:
+            if select_pokemon.trainer_name == trainer.name:
+                select_pokemon.delete()
+            else:
+                print("Selected pokemon is not associated with current trainer.")
+        else:
+            print("Selected Pokemon not found.")
+    else:
+        print("Trainer not found.")
+
 
 def pokemon_menu(selected_trainer):
     print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
@@ -126,7 +140,7 @@ def menu_pokemon(selected_trainer):
             input_new_pokemon(selected_trainer)
         elif pokemon_choice == "3":
             #list_pokemon()
-            delete_pokemon()
+            delete_pokemon(selected_trainer)
         elif pokemon_choice == "0":
             break
         else:
