@@ -44,7 +44,7 @@ def selected_pokemon(selected_trainer):
     trainer = Trainer.find_by_name(selected_trainer)
     if trainer:
         if select_pokemon:
-            if select_pokemon.trainer_name == trainer.id:
+            if select_pokemon.trainer_name == trainer.name:
                 pokemon_menu_selected(select_pokemon)
             else:
                 print("Selected pokemon is not associated with current trainer.")
