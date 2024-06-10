@@ -179,7 +179,7 @@ class Pokemon:
 
         row = CURSOR.execute(sql, (id,)).fetchone()
         return cls.instance_from_db(row) if row else None
-
+    
     @classmethod
     def find_by_name(cls, pokemon_name):
         sql = """
@@ -187,10 +187,10 @@ class Pokemon:
             FROM pokemons
             WHERE pokemon_name = ?
         """
-        
-        row = CURSOR.execute(sql, (pokemon_name,)).fetchone()
-        return cls.instance_from_db(row) if row else None
-    
+
+        rows = CURSOR.execute(sql, (pokemon_name,)).fetchall()
+        return [cls.instance_from_db(row) for row in rows]
+
     @classmethod
     def find_by_trainer_name(cls, trainer_name):
         sql = """

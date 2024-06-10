@@ -39,9 +39,9 @@ def delete_trainer():
 
 def selected_pokemon():
     pokemon_select = input("Name of capture pokemon: ")
-    selected_pokemon = Pokemon.find_by_name(pokemon_select)
-    if selected_pokemon:
-        print(pokemon_select.pokemon_name, pokemon_select.pokemon_type)
+    select_pokemon = Pokemon.find_by_name(pokemon_select)
+    if select_pokemon:
+       selected_pokemon_menu(select_pokemon)
     else:
         print("Selected Pokemon not found.")
 
@@ -135,7 +135,15 @@ def trainers_menu():
     print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
     print("                                                     ")
 
-
+def selected_pokemon_menu(select_pokemon):
+    print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+    for pokemon in select_pokemon:
+        print(f"                             {pokemon.pokemon_name}:                            ")
+        print("                                                                         ")
+        print(f"TYPE: {pokemon.pokemon_type}.")
+        print(f"HP: {pokemon.pokemon_hp}.")
+        print(f"ATTACK: {pokemon.pokemon_attack}.")
+        print(f"DEFENSE: {pokemon.pokemon_defense}.")
 
 def exit_program():
     print("Goodbye!")
