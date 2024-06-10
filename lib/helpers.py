@@ -29,14 +29,22 @@ def input_new_trainer():
 
 
 def delete_trainer():
-    trainer_name = input("Name of pokemon trainer: ")
-    trainer = Trainer.find_by_name(trainer_name)    
-    if trainer:
-        trainer.delete()
-        print(f'Trainer {trainer.name} deleted.')
-    else:
-        print(f'Trainer {trainer} not found.')
+    trainer_name = input("Name of the Pokemon trainer: ")
+    trainer = Trainer.find_by_name(trainer_name)
+    if not trainer:
+        print(f"Trainer {trainer_name} not found.")
+        return
 
+    pokemon_list = Pokemon.find_by_trainer_name(trainer_name)
+    if not pokemon_list:
+        print(f"No Pokemon found for trainer {trainer_name}.")
+        return
+
+    for pokemon in pokemon_list:
+        pokemon.delete()
+
+    trainer.delete()
+    print(f"Trainer {trainer_name} and their associated Pokemon have been deleted.")
 
 def selected_pokemon(selected_trainer):
     pokemon_select = input("Name of captured pokemon: ")
