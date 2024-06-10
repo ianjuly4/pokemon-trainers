@@ -130,7 +130,7 @@ def pokemon_menu(selected_trainer):
     print(" Please select an option from the menu:")
     print("     1. View Pokemon.")
     print("     2. Input A New Pokemon.")
-    print("     3. Delete Pokemon.")
+    print("     3. Delete A Pokemon.")
     print("     0. Exit to Pokemon Trainers' Menu.")
     print("                                                     ")
     print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
