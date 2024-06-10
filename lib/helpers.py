@@ -41,7 +41,7 @@ def selected_pokemon():
     pokemon_select = input("Name of capture pokemon: ")
     select_pokemon = Pokemon.find_by_name(pokemon_select)
     if select_pokemon:
-       selected_pokemon_menu(select_pokemon)
+       pokemon_menu_selected(select_pokemon)
     else:
         print("Selected Pokemon not found.")
 
@@ -65,8 +65,20 @@ def input_new_pokemon(selected_trainer):
         except Exception as exc:
             print("Error inputing pokemon :", exc)
 
-def update_pokemon():
-    pass
+def update_pokemon(select_pokemon):
+            
+            new_type = input("Please input Pokemon's new Type: ")
+            select_pokemon.pokemon_type = new_type
+            string_new_hp = input("Please input Pokemon's new HP: ")
+            new_hp = int(string_new_hp)
+            select_pokemon.pokemon_hp = new_hp
+            string_new_attack = input("Please input Pokemon's new Attack: ")
+            new_attack = int(string_new_attack)
+            select_pokemon.pokemon_attack = new_attack
+            string_new_defense = input("Please input Pokemon's new Defense: ")
+            new_defense = int(string_new_defense)
+            select_pokemon.pokemon_defense = new_defense
+            select_pokemon.update()
 
 def delete_pokemon():
     pass
@@ -80,15 +92,13 @@ def pokemon_menu(selected_trainer):
     pokemons = Pokemon.find_by_trainer_name(selected_trainer)
     for pokemon in pokemons:
         print(pokemon.pokemon_name)
-
     print("                                                     ")
     print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
     print("                                                     ")
     print(" Please select an option from the menu:")
     print("     1. View Pokemon.")
     print("     2. Input A New Pokemon.")
-    print("     3. Update Pokemon.")
-    print("     4. Delete Pokemon.")
+    print("     3. Delete Pokemon.")
     print("     0. Exit to Pokemon Trainers' Menu.")
     print("                                                     ")
     print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
@@ -106,11 +116,19 @@ def menu_pokemon(selected_trainer):
             input_new_pokemon(selected_trainer)
         elif pokemon_choice == "3":
             #list_pokemon()
-            update_pokemon()
-        elif pokemon_choice == "4":
-            #list_pokemon()
             delete_pokemon()
         elif pokemon_choice == "0":
+            break
+        else:
+            print("Invalid option, please select an option from the menu.")
+
+def pokemon_menu_selected(select_pokemon):
+    while True:
+        selected_pokemon_menu(select_pokemon)
+        selected_pokemon_choice = input("> ")
+        if selected_pokemon_choice == "A":
+            update_pokemon(select_pokemon)
+        elif selected_pokemon_choice == "D":
             break
         else:
             print("Invalid option, please select an option from the menu.")
@@ -123,11 +141,12 @@ def trainers_menu():
     trainers = Trainer.get_all()
     for trainer in trainers:
         print(trainer.name)
+
     print("                                                     ")
     print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
     print("                                                     ")
     print(" Please select an option from the menu:")
-    print("     A. View Pokemon Trainer.")
+    print("     A. View Pokemon Trainer's Pokemon.")
     print("     B. Input A New Pokemon Trainer.")
     print("     C. Delete A Pokemon Trainer.")
     print("     D. Exit To Main Menu.")
@@ -137,13 +156,22 @@ def trainers_menu():
 
 def selected_pokemon_menu(select_pokemon):
     print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-    for pokemon in select_pokemon:
-        print(f"                             {pokemon.pokemon_name}:                            ")
-        print("                                                                         ")
-        print(f"TYPE: {pokemon.pokemon_type}.")
-        print(f"HP: {pokemon.pokemon_hp}.")
-        print(f"ATTACK: {pokemon.pokemon_attack}.")
-        print(f"DEFENSE: {pokemon.pokemon_defense}.")
+
+    print(f"                             {select_pokemon.pokemon_name}:                            ")
+    print("                                                                         ")
+    print(f"TYPE: {select_pokemon.pokemon_type}.")
+    print(f"HP: {select_pokemon.pokemon_hp}.")
+    print(f"ATTACK: {select_pokemon.pokemon_attack}.")
+    print(f"DEFENSE: {select_pokemon.pokemon_defense}.")
+    print("                                                     ")
+    print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+    print("                                                     ")
+    print(" Please select an option from the menu:")
+    print(f"     A. Update {select_pokemon.pokemon_name}.")
+    print("     D. Exit to Pokemon Menu.")
+    print("                                                     ")
+    print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+    print("                                                     ")   
 
 def exit_program():
     print("Goodbye!")

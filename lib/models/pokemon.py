@@ -120,7 +120,7 @@ class Pokemon:
     def update(self):
         sql = """
             UPDATE pokemons
-            SET trainer_name, pokemon_name = ?, pokemon_type = ?, pokemon_hp = ?, pokemon_attack = ?, pokemon_defense = ?
+            SET trainer_name = ?, pokemon_name = ?, pokemon_type = ?, pokemon_hp = ?, pokemon_attack = ?, pokemon_defense = ?
             WHERE id = ?
         """
         CURSOR.execute(sql, (self.trainer_name, self.pokemon_name, self.pokemon_type, self.pokemon_hp, self.pokemon_attack, self.pokemon_defense, self.id))
@@ -189,8 +189,11 @@ class Pokemon:
         """
 
         rows = CURSOR.execute(sql, (pokemon_name,)).fetchall()
-        return [cls.instance_from_db(row) for row in rows]
-
+        if rows:
+            return cls.instance_from_db(rows[0])
+        else:
+            return None
+    
     @classmethod
     def find_by_trainer_name(cls, trainer_name):
         sql = """
