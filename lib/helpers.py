@@ -100,8 +100,9 @@ def update_pokemon(select_pokemon):
             select_pokemon.update()
 
 def delete_pokemon(selected_trainer):
-    pokemon_name = input("Name of pokemon: ")
-    select_pokemon = Pokemon.find_by_name(pokemon_name)
+    str_pokemon_number = input("Number of pokemon: ")
+    pokemon_number = int(str_pokemon_number)
+    select_pokemon = Pokemon.find_by_id(pokemon_number)
     trainer = Trainer.find_by_id(selected_trainer.id)
 
     if trainer:
