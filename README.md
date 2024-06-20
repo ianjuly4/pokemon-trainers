@@ -1,4 +1,3 @@
-
 Hello, and Welcome to the Pokemon Trainers' Index. We at Future Gadgets Inventory would like to introduce our updated Pokemon Trainers Index. This index is to help a Pokemon Trainer catalog trainers and their captured pokemon out in the field. We have updated our software to now hold up to 3 stats per pokemon. HP, Attack, and Defense. These statistics can be altered per pokemon in the View pokemon tab. We at Future Gadgets Inventory hope that this betters a trainers journey, and thanks you for using the Pokemon Trainers' Index.
 
 

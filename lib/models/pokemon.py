@@ -6,7 +6,7 @@ class Pokemon:
     all = {}
 
     def __init__(self, 
-                trainer_name,
+                trainer_id,
                 pokemon_name, 
                 pokemon_type, 
                 pokemon_hp,
@@ -16,7 +16,7 @@ class Pokemon:
         self.pokemon_name = pokemon_name
         self.pokemon_type = pokemon_type
         self.id = id
-        self.trainer_name = trainer_name
+        self.trainer_id = trainer_id
         self.pokemon_hp = pokemon_hp
         self.pokemon_attack = pokemon_attack
         self.pokemon_defense = pokemon_defense
@@ -42,14 +42,14 @@ class Pokemon:
             raise TypeError("Pokemon type must be a string and have atleast 3 characters.")
 
     @property
-    def trainer_name(self):
-        return self._trainer_name
-    @trainer_name.setter
-    def trainer_name(self, trainer_name):
-        if isinstance(trainer_name, str):
-            self._trainer_name = trainer_name
+    def trainer_id(self):
+        return self._trainer_id
+    @trainer_id.setter
+    def trainer_id(self, trainer_id):
+        if isinstance(trainer_id, int) and Trainer.find_by_id(trainer_id):
+            self._trainer_id = trainer_id
         else:
-            raise TypeError("Trainer name must be a string. ")
+            raise TypeError("Trainer id must be an integer and must reference a Trainer Id. ")
         
     @property
     def pokemon_hp(self):
@@ -85,13 +85,13 @@ class Pokemon:
         sql = """
             CREATE TABLE IF NOT EXISTS pokemons(
             id INTEGER PRIMARY KEY,
-            trainer_name TEXT,
+            trainer_id INTEGER,
             pokemon_name TEXT,
             pokemon_type TEXT,
             pokemon_hp INTEGER,
             pokemon_attack INTEGER,
             pokemon_defense INTEGER,
-            FOREIGN KEY (trainer_name) REFERENCES trainers (name)
+            FOREIGN KEY (trainer_id) REFERENCES trainers (id)
             )
         """
         CURSOR.execute(sql)
@@ -107,11 +107,11 @@ class Pokemon:
 
     def save(self):
         sql = """
-            INSERT INTO pokemons(trainer_name, pokemon_name, pokemon_type, pokemon_hp, pokemon_attack, pokemon_defense)
+            INSERT INTO pokemons(trainer_id, pokemon_name, pokemon_type, pokemon_hp, pokemon_attack, pokemon_defense)
             VALUES (?,?,?,?,?,?)
         """
     
-        CURSOR.execute(sql, (self.trainer_name, self.pokemon_name, self.pokemon_type, self.pokemon_hp, self.pokemon_attack, self.pokemon_defense))
+        CURSOR.execute(sql, (self.trainer_id, self.pokemon_name, self.pokemon_type, self.pokemon_hp, self.pokemon_attack, self.pokemon_defense))
         CONN.commit()
 
         self.id = CURSOR.lastrowid
@@ -120,10 +120,10 @@ class Pokemon:
     def update(self):
         sql = """
             UPDATE pokemons
-            SET trainer_name = ?, pokemon_name = ?, pokemon_type = ?, pokemon_hp = ?, pokemon_attack = ?, pokemon_defense = ?
+            SET trainer_id = ?, pokemon_name = ?, pokemon_type = ?, pokemon_hp = ?, pokemon_attack = ?, pokemon_defense = ?
             WHERE id = ?
         """
-        CURSOR.execute(sql, (self.trainer_name, self.pokemon_name, self.pokemon_type, self.pokemon_hp, self.pokemon_attack, self.pokemon_defense, self.id))
+        CURSOR.execute(sql, (self.trainer_id, self.pokemon_name, self.pokemon_type, self.pokemon_hp, self.pokemon_attack, self.pokemon_defense, self.id))
         CONN.commit()
 
     def delete(self):
@@ -137,8 +137,8 @@ class Pokemon:
         self.id = None
 
     @classmethod
-    def create(cls, trainer_name, pokemon_name, pokemon_type, pokemon_hp, pokemon_attack, pokemon_defense):
-        pokemon = cls(trainer_name, pokemon_name, pokemon_type, pokemon_hp, pokemon_attack, pokemon_defense)
+    def create(cls, trainer_id, pokemon_name, pokemon_type, pokemon_hp, pokemon_attack, pokemon_defense):
+        pokemon = cls(trainer_id, pokemon_name, pokemon_type, pokemon_hp, pokemon_attack, pokemon_defense)
         pokemon.save()
         return pokemon
 
@@ -146,7 +146,7 @@ class Pokemon:
     def instance_from_db(cls, row):
         pokemon = cls.all.get(row[0])
         if pokemon:
-            pokemon.trainer_name = row[1]
+            pokemon.trainer_id = row[1]
             pokemon.pokemon_name = row[2]
             pokemon.pokemon_type = row[3]
             pokemon.pokemon_hp = row[4]

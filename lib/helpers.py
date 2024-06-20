@@ -9,8 +9,7 @@ def selected_trainer():
     trainer_select = input("Name of Pokemon Trainer: ")
     selected_trainer = Trainer.find_by_name(trainer_select)
     if selected_trainer:
-           
-           menu_pokemon(selected_trainer.name)      
+           menu_pokemon(selected_trainer)      
     else:
         print("Selected trainer not found.")
         
@@ -23,36 +22,38 @@ def input_new_trainer():
     else:
         try:
             new_trainer = Trainer.create(trainer_name)
-            print(f'{new_trainer.name} created.')
+    
         except Exception as exc:
             print("Error creating pokemon trainer:", exc)
 
 
 def delete_trainer():
-    trainer_name = input("Name of the Pokemon trainer: ")
-    trainer = Trainer.find_by_name(trainer_name)
+    str_trainer_id = input("Number of the Pokemon trainer: ")
+    trainer_id = int(str_trainer_id)
+    trainer = Trainer.find_by_id(trainer_id)
     if not trainer:
-        print(f"Trainer {trainer_name} not found.")
+        print(f"Number {trainer_id} trainer not found.")
         return
+    
+    pokemons = trainer.pokemons()
+    #if not pokemons:
+        #print(f"No Pokémon found for trainer with ID {trainer_id}.")
+        #return
 
-    pokemon_list = Pokemon.find_by_trainer_name(trainer_name)
-    if not pokemon_list:
-        print(f"No Pokemon found for trainer {trainer_name}.")
-        return
-
-    for pokemon in pokemon_list:
+    pokemons = trainer.pokemons()
+    for pokemon in pokemons:
         pokemon.delete()
 
     trainer.delete()
-    print(f"Trainer {trainer_name} and their associated Pokemon have been deleted.")
+    print(f"Number {trainer.name} trainer and their associated Pokemon have been deleted.")
 
 def selected_pokemon(selected_trainer):
     pokemon_select = input("Name of captured pokemon: ")
     select_pokemon = Pokemon.find_by_name(pokemon_select)
-    trainer = Trainer.find_by_name(selected_trainer)
+    trainer = Trainer.find_by_id(selected_trainer.id)
     if trainer:
         if select_pokemon:
-            if select_pokemon.trainer_name == trainer.name:
+            if select_pokemon.trainer_id == trainer.id:
                 pokemon_menu_selected(select_pokemon)
             else:
                 print("Selected pokemon is not associated with current trainer.")
@@ -76,7 +77,7 @@ def input_new_pokemon(selected_trainer):
             attack = int(pokemon_attack)
             pokemon_defense = input("Please input defense of new captured pokemon: ")
             defense = int(pokemon_defense)
-            new_pokemon = Pokemon.create(selected_trainer, pokemon_name, pokemon_type, hp, attack, defense)
+            new_pokemon = Pokemon.create(selected_trainer.id, pokemon_name, pokemon_type, hp, attack, defense)
             
             print(f'{new_pokemon.pokemon_name} inputed.')
         except Exception as exc:
@@ -101,11 +102,11 @@ def update_pokemon(select_pokemon):
 def delete_pokemon(selected_trainer):
     pokemon_name = input("Name of pokemon: ")
     select_pokemon = Pokemon.find_by_name(pokemon_name)
-    trainer = Trainer.find_by_name(selected_trainer)
+    trainer = Trainer.find_by_id(selected_trainer.id)
 
     if trainer:
         if select_pokemon:
-            if select_pokemon.trainer_name == trainer.name:
+            if select_pokemon.trainer_id == trainer.id:
                 select_pokemon.delete()
             else:
                 print("Selected pokemon is not associated with current trainer.")
@@ -117,13 +118,15 @@ def delete_pokemon(selected_trainer):
 
 def pokemon_menu(selected_trainer):
     print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-    print(f"                             {selected_trainer}'s POKEMON:                            ")
+    print(f"                             {selected_trainer.name}'s POKEMON:                            ")
     print("                                                                         ")    
     #Pokemon.drop_table()
     Pokemon.create_table()
-    pokemons = Pokemon.find_by_trainer_name(selected_trainer)
-    for pokemon in pokemons:
-        print(pokemon.pokemon_name)
+    pokemons = selected_trainer.pokemons()
+    for i, pokemon in enumerate(pokemons, start=1):
+        print(f'{i}. {pokemon.pokemon_name}')
+    #for pokemon in pokemons:
+        #print(pokemon.pokemon_name)
     print("                                                     ")
     print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
     print("                                                     ")
@@ -169,11 +172,15 @@ def trainers_menu():
     print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
     print("                             POKEMON TRAINERS                            ")
     print("                                                                         ")
+    #Trainer.drop_table()
     Trainer.create_table()
     trainers = Trainer.get_all()
-    for trainer in trainers:
-        print(trainer.name)
-
+    for i, trainer in enumerate(trainers, start=1):
+        print(f'{i}. {trainer.name}')
+    #for trainer in trainers:
+        #print(trainer.name)
+    #trainers = (trainer.name for trainer in Trainer.get_all())
+    #print(trainers)
     print("                                                     ")
     print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
     print("                                                     ")
