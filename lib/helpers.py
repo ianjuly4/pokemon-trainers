@@ -6,8 +6,9 @@ from models.pokemon import Pokemon
 
 
 def selected_trainer():
-    trainer_select = input("Name of Pokemon Trainer: ")
-    selected_trainer = Trainer.find_by_name(trainer_select)
+    str_trainer_select = input("Number of Pokemon Trainer: ")
+    trainer_select = int(str_trainer_select)
+    selected_trainer = Trainer.find_by_id(trainer_select)
     if selected_trainer:
            menu_pokemon(selected_trainer)      
     else:
@@ -34,7 +35,7 @@ def delete_trainer():
     if not trainer:
         print(f"Number {trainer_id} trainer not found.")
         return
-    
+
     pokemons = trainer.pokemons()
     #if not pokemons:
         #print(f"No Pokémon found for trainer with ID {trainer_id}.")
@@ -65,7 +66,7 @@ def selected_pokemon(selected_trainer):
 
 def input_new_pokemon(selected_trainer):
     pokemon_name = input("Please input the name of new captured pokemon: ")
-    existing_pokemon = Trainer.find_by_name(pokemon_name)
+    existing_pokemon = Pokemon.find_by_name(pokemon_name)
     if existing_pokemon:
         print("Pokemon has already been captured. Please enter a non-listed name.")
     else:
@@ -100,9 +101,8 @@ def update_pokemon(select_pokemon):
             select_pokemon.update()
 
 def delete_pokemon(selected_trainer):
-    str_pokemon_number = input("Number of pokemon: ")
-    pokemon_number = int(str_pokemon_number)
-    select_pokemon = Pokemon.find_by_id(pokemon_number)
+    pokemon_name = input("Name of pokemon: ")
+    select_pokemon = Pokemon.find_by_name(pokemon_name)
     trainer = Trainer.find_by_id(selected_trainer.id)
 
     if trainer:
@@ -188,7 +188,7 @@ def trainers_menu():
     print(" Please select an option from the menu:")
     print("     A. View Pokemon Trainer's Pokemon.")
     print("     B. Input A New Pokemon Trainer.")
-    print("     C. Delete A Pokemon Trainer.")
+    print("     C. Delete A Pokemon Trainer And Their Pokemon.")
     print("     D. Exit To Main Menu.")
     print("                                                     ")
     print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
