@@ -10,6 +10,10 @@ Getting Started:
         terminal
         python 
         pipenv environment
+
+Run With:
+    cd lib
+    python cli.py
     
     Installation:
 
